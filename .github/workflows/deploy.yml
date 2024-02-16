@@ -9,6 +9,10 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
 
+    environment:
+      name: production
+      url: https://github.com
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
