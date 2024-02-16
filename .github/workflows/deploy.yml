@@ -22,6 +22,9 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Add Lightsail Host Key to known_hosts
+        run: ssh-keyscan -H 54.179.227.134 >> $HOME/.ssh/known_hosts
+
       - name: Install Dependencies
         run: npm install --prefix frontend
 
