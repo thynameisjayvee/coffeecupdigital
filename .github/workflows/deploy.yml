@@ -31,5 +31,8 @@ jobs:
       - name: Build Vue.js Application
         run: npm run build --prefix frontend
 
+      - name: Create Deployment Directory
+        run: ssh ubuntu@54.179.227.134 'mkdir -p /home/ubuntu/projects/coffeecupdigital/frontend'
+
       - name: Deploy to Lightsail
-        run: scp -r frontend/dist/* ubuntu@54.179.227.134:/projects/coffeecupdigital/frontend
+        run: scp -r frontend/dist/* ubuntu@54.179.227.134:/home/ubuntu/projects/coffeecupdigital/frontend
