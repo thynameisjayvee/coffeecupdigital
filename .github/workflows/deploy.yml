@@ -1,4 +1,4 @@
-name: AWS Lightsail Deployment
+name: Deploy to Lightsail
 
 on:
   push:
@@ -13,19 +13,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.0
         with:
-          node-version: 20
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --prefix frontend
 
-      - name: Deploy to AWS Lightsail
-        run: |
-          npm run build  # Add your build command if needed
-          aws lightsail push-container-image --service-name coffee_cup_deployment --label latest --image coffee_cup_image
-          aws lightsail create-container-service-deployment --service-name coffee_cup_deployment --containers '{"containerName":"coffee_cup_deployment","image":"coffee_cup_image"}'
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Build Vue.js Application
+        run: npm run build --prefix frontend
+
+      - name: Deploy to Lightsail
+        run: scp -r frontend/dist/* ubuntu@54.179.227.134:/projects/coffeecupdigital/frontend
