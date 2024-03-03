@@ -32,7 +32,7 @@ jobs:
         run: npm run build --prefix frontend
 
       - name: Create Deployment Directory
-        run: ssh ${{ secrets.LIGHTSAIL_USER }}@{{ secrets.LIGHTSAIL_STATIC_IP }} 'mkdir -p /home/ubuntu/projects/coffeecupdigital/frontend'
+        run: ssh ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_STATIC_IP }} 'mkdir -p /home/ubuntu/projects/coffeecupdigital/frontend'
 
       - name: Deploy to Lightsail
-        run: scp -r frontend/dist/* ${{ secrets.LIGHTSAIL_USER }}@{{ secrets.LIGHTSAIL_STATIC_IP }}:/home/ubuntu/projects/coffeecupdigital/frontend
+        run: scp -r frontend/dist/* ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_STATIC_IP }}:/home/ubuntu/projects/coffeecupdigital/frontend
